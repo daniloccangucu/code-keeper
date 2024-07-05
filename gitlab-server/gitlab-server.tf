@@ -45,6 +45,9 @@ resource "aws_instance" "gitlab" {
               # Install latest Node.js LTS version and npm
               sudo curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo bash -
               sudo apt-get install -y nodejs
+
+              # Install zip
+              sudo apt-get install -y zip
               EOF
 
   root_block_device {

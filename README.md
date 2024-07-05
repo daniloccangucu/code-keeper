@@ -1,31 +1,35 @@
 #### General Setup
-- [ ] Set up a source control system for the microservices source code
-- [ ] Set up source control for infrastructure configuration
+Set up a source control system for the microservices source code
+  - [x] Inventory-app
+  - [x] Billing-app
+  - [ ] Gateway-api
+- [x] Set up source control for infrastructure configuration
 
 #### Infrastructure Setup with Terraform
-- [ ] Create Terraform scripts for infrastructure setup
-  - [ ] Initialize Terraform working directory and backend
-  - [ ] Validate Terraform configuration files
-  - [ ] Plan Terraform execution plan
+- [x] Create Terraform scripts for infrastructure setup
+  - [x] Initialize Terraform working directory and backend
+  - [x] Validate Terraform configuration files
+  - [x] Plan Terraform execution plan
   - [ ] Apply Terraform configuration to staging environment
   - [ ] Manual approval step for production deployment
   - [ ] Apply Terraform configuration to production environment
 
 #### GitLab and Runners Deployment
-- [ ] Create an Ansible playbook to deploy and configure a GitLab instance
-- [ ] Deploy the GitLab instance on a cloud platform or local environment using Ansible
-- [ ] Configure the GitLab instance to support CI/CD pipelines
-- [ ] Set up GitLab Runners and integrate them with the existing pipeline
+- [x] Create an Ansible playbook to deploy and configure a GitLab instance
+- [x] Deploy the GitLab instance on a cloud platform or local environment using Ansible
+- [x] Configure the GitLab instance to support CI/CD pipelines
+- [x] Set up GitLab Runners and integrate them with the existing pipeline
 
 ### Microservice Implementation
 
 #### Inventory Application
-- [ ] Set up Inventory Application repository
+- [x] Set up Inventory IaC in Terraform
+- [x] Set up Inventory Application repository
 - [ ] Design and implement CI pipeline for Inventory Application
   - [ ] Build: Compile and package the application
   - [ ] Test: Run unit and integration tests
   - [ ] Scan: Analyze source code and dependencies for security vulnerabilities
-  - [ ] Containerization: Package application into Docker image and push to a container registry
+  - [x] Containerization: Package application into Docker image and push to a container registry
 - [ ] Design and implement CD pipeline for Inventory Application
   - [ ] Deploy to Staging: Deploy application to staging environment
   - [ ] Approval: Manual approval for production deployment

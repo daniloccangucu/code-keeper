@@ -1,0 +1,4 @@
+*.pem
+/gitlab-server/.terraform
+gitlab-server/.terraform.lock.hcl
+gitlab-server/terraform.tfstate

@@ -41,6 +41,10 @@ resource "aws_instance" "gitlab" {
               # Install Gitlab-runner
               sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
               sudo chmod +x /usr/local/bin/gitlab-runner
+
+              # Install latest Node.js LTS version and npm
+              sudo curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo bash -
+              sudo apt-get install -y nodejs
               EOF
 
   root_block_device {

@@ -27,7 +27,7 @@ Set up a source control system for the microservices source code
 - [x] Set up Inventory Application repository
 - [ ] Design and implement CI pipeline for Inventory Application
   - [x] Build: Compile and package the application
-  - [ ] Test: Run unit and integration tests
+  - [x] Test: Run unit and integration tests
   - [ ] Scan: Analyze source code and dependencies for security vulnerabilities
   - [x] Containerization: Package application into Docker image and push to a container registry
 - [ ] Design and implement CD pipeline for Inventory Application

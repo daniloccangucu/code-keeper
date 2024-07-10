@@ -56,7 +56,7 @@ resource "aws_instance" "gitlab" {
 
               sudo curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
               sudo chmod +x ./snyk
-              sudo mv ./snyk /usr/local/bin/ 
+              sudo mv ./snyk /usr/local/bin/
               EOF
 
   root_block_device {

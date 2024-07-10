@@ -32,7 +32,6 @@ Set up a source control system for the microservices source code
   - [x] Containerization: Package application into Docker image and push to a container registry
 - [ ] Design and implement CD pipeline for Inventory Application
   - [x] Deploy to Staging: Deploy application to staging environment
-  --> DEPLOYMENT NEEDS TO BE IN BACKGROUND
   - [ ] Approval: Manual approval for production deployment
   - [ ] Deploy to Production: Deploy application to production environment
 - [ ] Validate the pipeline functionality for Inventory Application

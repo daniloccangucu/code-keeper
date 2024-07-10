@@ -1,0 +1,57 @@
+---
+- name: Configure GitLab instance
+  hosts: gitlab_server
+  become: yes
+  tasks:
+    - name: Install necessary dependencies
+      apt:
+        name:
+          - curl
+          - openssh-server
+          - ca-certificates
+        state: present
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name:
+          - apt-transport-https
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        state: present
+
+    - name: Install Docker CE
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    - name: Install GitLab
+      shell: |
+        curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash
+        apt-get install -y gitlab-ee
+        gitlab-ctl reconfigure
+
+    - name: Install GitLab Runner
+      shell: |
+        curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+        chmod +x /usr/local/bin/gitlab-runner
+
+    - name: Install Node.js and npm
+      shell: |
+        curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+        apt-get install -y nodejs
+
+    - name: Install zip
+      apt:
+        name: zip
+        state: present

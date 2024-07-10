@@ -48,6 +48,15 @@ resource "aws_instance" "gitlab" {
 
               # Install zip
               sudo apt-get install -y zip
+
+              # Install Ansible
+              sudo apt-get install -y software-properties-common
+              sudo add-apt-repository --yes --update ppa:ansible/ansible
+              sudo apt-get install -y ansible
+
+              sudo curl https://static.snyk.io/cli/latest/snyk-macos -o snyk
+              sudo chmod +x ./snyk
+              sudo mv ./snyk /usr/local/bin/ 
               EOF
 
   root_block_device {

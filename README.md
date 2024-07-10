@@ -25,13 +25,14 @@ Set up a source control system for the microservices source code
 #### Inventory Application
 - [x] Set up Inventory IaC in Terraform
 - [x] Set up Inventory Application repository
-- [ ] Design and implement CI pipeline for Inventory Application
+- [x] Design and implement CI pipeline for Inventory Application
   - [x] Build: Compile and package the application
   - [x] Test: Run unit and integration tests
-  - [ ] Scan: Analyze source code and dependencies for security vulnerabilities
+  - [x] Scan: Analyze source code and dependencies for security vulnerabilities
   - [x] Containerization: Package application into Docker image and push to a container registry
 - [ ] Design and implement CD pipeline for Inventory Application
-  - [ ] Deploy to Staging: Deploy application to staging environment
+  - [x] Deploy to Staging: Deploy application to staging environment
+  --> DEPLOYMENT NEEDS TO BE IN BACKGROUND
   - [ ] Approval: Manual approval for production deployment
   - [ ] Deploy to Production: Deploy application to production environment
 - [ ] Validate the pipeline functionality for Inventory Application

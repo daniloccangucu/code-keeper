@@ -10,9 +10,9 @@ Set up a source control system for the microservices source code
   - [x] Initialize Terraform working directory and backend
   - [x] Validate Terraform configuration files
   - [x] Plan Terraform execution plan
-  - [ ] Apply Terraform configuration to staging environment
-  - [ ] Manual approval step for production deployment
-  - [ ] Apply Terraform configuration to production environment
+  - [x] Apply Terraform configuration to staging environment
+  - [x] Manual approval step for production deployment
+  - [x] Apply Terraform configuration to production environment
 
 #### GitLab and Runners Deployment
 - [x] Create an Ansible playbook to deploy and configure a GitLab instance
@@ -30,10 +30,10 @@ Set up a source control system for the microservices source code
   - [x] Test: Run unit and integration tests
   - [x] Scan: Analyze source code and dependencies for security vulnerabilities
   - [x] Containerization: Package application into Docker image and push to a container registry
-- [ ] Design and implement CD pipeline for Inventory Application
+- [x] Design and implement CD pipeline for Inventory Application
   - [x] Deploy to Staging: Deploy application to staging environment
-  - [ ] Approval: Manual approval for production deployment
-  - [ ] Deploy to Production: Deploy application to production environment
+  - [x] Approval: Manual approval for production deployment
+  - [x] Deploy to Production: Deploy application to production environment
 - [ ] Validate the pipeline functionality for Inventory Application
 
 #### Billing Application
@@ -78,50 +78,3 @@ Set up a source control system for the microservices source code
 - [ ] Submit CI/CD pipeline configuration files, scripts, and other required artifacts
 - [ ] Submit the Ansible playbook and scripts for deploying and configuring GitLab
 - [ ] Ensure the solution is running and correctly configured for the audit session
-
-### Evaluation Criteria
-
-#### General
-- [ ] Ensure all required files are present in the repository
-- [ ] Role play as a stakeholder to explain the solution
-  - [ ] Explain DevOps concepts and benefits
-  - [ ] Discuss DevOps practices and their implementation in the project
-  - [ ] Explain the role of automation and CI/CD in DevOps
-  - [ ] Discuss the importance of Infrastructure as Code (IaC)
-  - [ ] Explain security integration in development and deployment processes
-  - [ ] Address challenges faced and their solutions
-  - [ ] Discuss resource optimization and cost reduction in cloud environments
-  - [ ] Explain the use of GitLab, GitLab Runners, and Ansible
-  - [ ] Discuss the CI/CD pipeline design and implementation
-  - [ ] Explain the security measures implemented in the pipelines
-
-#### GitLab and Runners Deployment
-- [ ] Demonstrate the use of `ansible-playbook --list-tasks` and `systemctl status`
-- [ ] Confirm successful deployment and configuration of GitLab using Ansible
-- [ ] Verify GitLab Runners integration and pipeline execution
-
-#### Infrastructure Pipeline
-- [ ] Confirm deployment of cloud-design and crud-master for staging and production environments using Terraform
-- [ ] Verify similarity in design, resources, and services between environments
-- [ ] Ensure infrastructure configuration exists in an independent repository with a configured pipeline
-- [ ] Confirm correct implementation of "Init", "Validate", "Plan", "Apply to Staging", "Approval", and "Apply to Production" stages
-
-#### CI Pipeline
-- [ ] Verify correct implementation of Build, Test, Scan, and Containerization stages for each repository
-
-#### CD Pipeline
-- [ ] Verify correct implementation of "Deploy to Staging", "Approval", and "Deploy to Production" stages for each repository
-
-#### Functionality of Pipelines
-- [ ] Demonstrate the functionality of pipelines by running tests
-- [ ] Confirm pipelines update the application and infrastructure after each modification
-
-#### Cybersecurity Guidelines
-- [ ] Verify triggers are restricted to protected branches
-- [ ] Confirm separation of credentials from code
-- [ ] Assess application of the least privilege principle
-- [ ] Check the process for updating dependencies and tools
-
-#### Documentation
-- [ ] Ensure README.md contains all necessary information
-- [ ] Verify clarity and completeness of the documentation, including diagrams and descriptions

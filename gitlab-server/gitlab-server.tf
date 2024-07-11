@@ -54,9 +54,15 @@ resource "aws_instance" "gitlab" {
               sudo add-apt-repository --yes --update ppa:ansible/ansible
               sudo apt-get install -y ansible
 
+              # Install Snyk
               sudo curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
               sudo chmod +x ./snyk
               sudo mv ./snyk /usr/local/bin/
+
+              # Install Terraform
+              sudo wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
+              sudo unzip terraform_1.9.2_linux_amd64.zip
+              sudo mv terraform /usr/local/bin/
               EOF
 
   root_block_device {

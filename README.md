@@ -2,7 +2,7 @@
 Set up a source control system for the microservices source code
   - [x] Inventory-app
   - [x] Billing-app
-  - [ ] Gateway-api
+  - [x] Gateway-api
 - [x] Set up source control for infrastructure configuration
 
 #### Infrastructure Setup with Terraform
@@ -34,47 +34,36 @@ Set up a source control system for the microservices source code
   - [x] Deploy to Staging: Deploy application to staging environment
   - [x] Approval: Manual approval for production deployment
   - [x] Deploy to Production: Deploy application to production environment
-- [ ] Validate the pipeline functionality for Inventory Application
 
 #### Billing Application
-- [ ] Set up Billing Application repository
-- [ ] Design and implement CI pipeline for Billing Application
-  - [ ] Build: Compile and package the application
-  - [ ] Test: Run unit and integration tests
-  - [ ] Scan: Analyze source code and dependencies for security vulnerabilities
-  - [ ] Containerization: Package application into Docker image and push to a container registry
-- [ ] Design and implement CD pipeline for Billing Application
-  - [ ] Deploy to Staging: Deploy application to staging environment
-  - [ ] Approval: Manual approval for production deployment
-  - [ ] Deploy to Production: Deploy application to production environment
-- [ ] Validate the pipeline functionality for Billing Application
+- [x] Set up Billing Application repository
+- [x] Design and implement CI pipeline for Billing Application
+  - [x] Build: Compile and package the application
+  - [x] Test: Run unit and integration tests
+  - [x] Scan: Analyze source code and dependencies for security vulnerabilities
+  - [x] Containerization: Package application into Docker image and push to a container registry
+- [x] Design and implement CD pipeline for Billing Application
+  - [x] Deploy to Staging: Deploy application to staging environment
+  - [x] Approval: Manual approval for production deployment
+  - [x] Deploy to Production: Deploy application to production environment
 
 #### API Gateway Application
-- [ ] Set up API Gateway Application repository
-- [ ] Design and implement CI pipeline for API Gateway Application
-  - [ ] Build: Compile and package the application
-  - [ ] Test: Run unit and integration tests
-  - [ ] Scan: Analyze source code and dependencies for security vulnerabilities
-  - [ ] Containerization: Package application into Docker image and push to a container registry
-- [ ] Design and implement CD pipeline for API Gateway Application
-  - [ ] Deploy to Staging: Deploy application to staging environment
-  - [ ] Approval: Manual approval for production deployment
-  - [ ] Deploy to Production: Deploy application to production environment
-- [ ] Validate the pipeline functionality for API Gateway Application
+- [x] Set up API Gateway Application repository
+- [x] Design and implement CI pipeline for API Gateway Application
+  - [x] Build: Compile and package the application
+  - [x] Test: Run unit and integration tests
+  - [x] Scan: Analyze source code and dependencies for security vulnerabilities
+  - [x] Containerization: Package application into Docker image and push to a container registry
+- [x] Design and implement CD pipeline for API Gateway Application
+  - [x] Deploy to Staging: Deploy application to staging environment
+  - [x] Approval: Manual approval for production deployment
+  - [x] Deploy to Production: Deploy application to production environment
 
 #### Cybersecurity Measures
-- [ ] Restrict triggers to protected branches
-- [ ] Separate credentials from code
-- [ ] Apply the least privilege principle
-- [ ] Update dependencies and tools regularly
+- [x] Restrict triggers to protected branches
+- [x] Separate credentials from code
+- [x] Apply the least privilege principle
+- [x] Update dependencies and tools regularly
 
 #### Documentation
-- [ ] Write a README.md file with full documentation (prerequisites, configuration, setup, usage)
-
-### Role Play Preparation
-- [ ] Prepare for a role play question session to present and explain your solution
-
-### Submission and Audit
-- [ ] Submit CI/CD pipeline configuration files, scripts, and other required artifacts
-- [ ] Submit the Ansible playbook and scripts for deploying and configuring GitLab
-- [ ] Ensure the solution is running and correctly configured for the audit session
+- [x] Write a README.md file with full documentation (prerequisites, configuration, setup, usage)

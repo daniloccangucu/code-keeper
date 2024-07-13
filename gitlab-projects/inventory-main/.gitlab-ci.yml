@@ -1,0 +1,80 @@
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_IMAGE: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_INVENTORY:$CI_COMMIT_SHA
+
+include:
+  - local: .gitlab-cd.yml
+
+stages:
+  - build
+  - package
+  - test
+  - scan
+  - containerize
+  - deploy-staging
+  - approval
+  - deploy-production
+
+before_script:
+  - echo "Starting CI process..."
+  - >
+    echo "DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME" &&
+    echo "DOCKER_IMAGE: $DOCKER_IMAGE" &&
+    docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+
+build:
+  stage: build
+  image: node:14
+  script:
+    - echo "Building the application..."
+    - npm install --save-dev webpack webpack-cli
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - main
+
+package:
+  stage: package
+  script:
+    - echo "Packaging the application..."
+    - zip -r $DOCKER_IMAGE_INVENTORY-$CI_COMMIT_SHA.zip .
+    - echo "Confirming zip was created..."
+    - ls -la
+    - mkdir -p /home/ubuntu/builds/output
+    - mv $DOCKER_IMAGE_INVENTORY-$CI_COMMIT_SHA.zip /home/ubuntu/builds/output/
+  only:
+    - main
+
+test:
+  stage: test
+  image: node:14
+  script:
+    - echo "Testing the application..."
+    - npm install --save-dev webpack webpack-cli
+    - npm run test
+  only:
+    - main
+  
+
+scan:
+  stage: scan
+  script:
+    - echo "Scanning the application..."
+    - snyk auth $SNKY_API_KEY
+    - snyk monitor
+  only:
+    - main
+
+containerize:
+  stage: containerize
+  script:
+    - echo "Building the Docker image..."
+    - docker build --no-cache --build-arg PGUSER=$PGUSER --build-arg PGPASSWORD=$PGPASSWORD --build-arg PGDATABASE=$PGDATABASE --build-arg PGHOST=$DEPLOYMENT_IP --build-arg PGPORT=$PGPORT -t $DOCKER_IMAGE .
+    - docker tag $DOCKER_IMAGE $DOCKERHUB_USERNAME/$DOCKER_IMAGE_INVENTORY:latest
+    - docker push $DOCKERHUB_USERNAME/$DOCKER_IMAGE_INVENTORY:latest
+  only:
+    - main

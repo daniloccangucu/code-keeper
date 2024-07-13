@@ -1,0 +1,101 @@
+stages:
+  - deploy-staging
+  - approval
+  - deploy-production
+
+deploy-staging:
+  stage: deploy-staging
+  image: docker:latest
+  script:
+    - echo "Deploying to staging environment..."
+    - echo "$SSH_PRIVATE_KEY" > /tmp/code-keeper.pem
+    - chmod 400 /tmp/code-keeper.pem
+    - ssh -o StrictHostKeyChecking=no -i /tmp/code-keeper.pem ubuntu@$DEPLOYMENT_IP "
+        echo 'Listing all running Docker containers...';
+        sudo docker ps -a;
+        echo 'Checking for containers using port 3000...';
+        CONTAINERS=\$(sudo docker ps --filter 'publish=3000' --format '{{.ID}}');
+        if [ -n \"\$CONTAINERS\" ]; then 
+          echo 'Port 3000 is in use. Stopping existing containers...'; 
+          for CONTAINER in \$CONTAINERS; do 
+            echo \"Stopping container \$CONTAINER\";
+            sudo docker stop \$CONTAINER || echo 'No such container to stop'; 
+            sudo docker rm \$CONTAINER || echo 'No such container to remove'; 
+          done; 
+        else
+          echo 'No containers are using port 3000!';
+        fi;
+        echo 'Checking for containers using port 3000...';
+        CONTAINERS_3000=\$(sudo docker ps --filter 'publish=3000' --format '{{.ID}}');
+        if [ -n \"\$CONTAINERS_3000\" ]; then 
+          echo 'Port 3000 is in use. Stopping existing containers...'; 
+          for CONTAINER in \$CONTAINERS_3000; do 
+            echo \"Stopping container \$CONTAINER\";
+            sudo docker stop \$CONTAINER || echo 'No such container to stop'; 
+            sudo docker rm \$CONTAINER || echo 'No such container to remove'; 
+          done; 
+        else
+          echo 'No containers are using port 3000.';
+        fi;
+        echo 'Pulling new Docker image...';
+        docker pull $DOCKERHUB_USERNAME/$DOCKER_IMAGE_API_GATEWAY:latest;
+        echo 'Running new Docker container...';
+        docker run -d -p 3000:3000 $DOCKERHUB_USERNAME/$DOCKER_IMAGE_API_GATEWAY:latest;
+        echo 'Listing all running Docker containers after deployment...';
+        sudo docker ps -a"
+  only:
+    - main
+
+approval:
+  stage: approval
+  script:
+    - echo "Approved to proceed to production deployment"
+  dependencies:
+    - deploy-staging  
+  when: manual
+  only:
+    - main
+
+deploy-production:
+  stage: deploy-production
+  image: docker:latest
+  script:
+    - echo "Deploying to production environment..."
+    - echo "$SSH_PRIVATE_KEY" > /tmp/code-keeper.pem
+    - chmod 400 /tmp/code-keeper.pem
+    - ssh -o StrictHostKeyChecking=no -i /tmp/code-keeper.pem ubuntu@$API_GATEWAY_PRODUCTION_IP "
+        echo 'Listing all running Docker containers...';
+        sudo docker ps -a;
+        echo 'Checking for containers using port 3000...';
+        CONTAINERS=\$(sudo docker ps --filter 'publish=3000' --format '{{.ID}}');
+        if [ -n \"\$CONTAINERS\" ]; then 
+          echo 'Port 3000 is in use. Stopping existing containers...'; 
+          for CONTAINER in \$CONTAINERS; do 
+            echo \"Stopping container \$CONTAINER\";
+            sudo docker stop \$CONTAINER || echo 'No such container to stop'; 
+            sudo docker rm \$CONTAINER || echo 'No such container to remove'; 
+          done; 
+        else
+          echo 'No containers are using port 3000!';
+        fi;
+        echo 'Checking for containers using port 3000...';
+        CONTAINERS_3000=\$(sudo docker ps --filter 'publish=3000' --format '{{.ID}}');
+        if [ -n \"\$CONTAINERS_3000\" ]; then 
+          echo 'Port 3000 is in use. Stopping existing containers...'; 
+          for CONTAINER in \$CONTAINERS_3000; do 
+            echo \"Stopping container \$CONTAINER\";
+            sudo docker stop \$CONTAINER || echo 'No such container to stop'; 
+            sudo docker rm \$CONTAINER || echo 'No such container to remove'; 
+          done; 
+        else
+          echo 'No containers are using port 3000.';
+        fi;
+        echo 'Pulling new Docker image...';
+        docker pull $DOCKERHUB_USERNAME/$DOCKER_IMAGE_API_GATEWAY:latest;
+        echo 'Running new Docker container...';
+        docker run -d -p 3000:3000 --env RABBITMQ_URL_PRODUCTION=$RABBITMQ_URL_PRODUCTION --env INVENTORY_API_URL_PRODUCTION=$INVENTORY_API_URL_PRODUCTION $DOCKERHUB_USERNAME/$DOCKER_IMAGE_API_GATEWAY:latest;
+        echo 'Listing all running Docker containers after deployment...';
+        sudo docker ps -a"
+  when: manual
+  only:
+    - main

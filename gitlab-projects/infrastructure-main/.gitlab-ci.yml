@@ -1,0 +1,128 @@
+image: hashicorp/terraform:latest
+
+stages:
+  - init
+  - validate
+  - plan
+  - apply-staging
+  - approval
+  - apply-production
+
+variables:
+  TF_VAR_AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  TF_VAR_AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+
+init-staging:
+  stage: init
+  script:
+    - cd staging
+    - terraform init
+    - rm -rf /tmp/staging-terraform
+    - mv .terraform /tmp/staging-terraform
+    - mv .terraform.lock.hcl /tmp/staging-terraform.lock.hcl
+  only:
+    - main
+
+init-production:
+  stage: init
+  script:
+    - cd production
+    - terraform init
+    - rm -rf /tmp/production-terraform
+    - mv .terraform /tmp/production-terraform
+    - mv .terraform.lock.hcl /tmp/production-terraform.lock.hcl
+  only:
+    - main
+
+validate-staging:
+  stage: validate
+  script:
+    - cd staging
+    - mv /tmp/staging-terraform .terraform
+    - mv /tmp/staging-terraform.lock.hcl .terraform.lock.hcl
+    - terraform validate
+    - mv .terraform /tmp/staging-terraform
+    - mv .terraform.lock.hcl /tmp/staging-terraform.lock.hcl
+  dependencies:
+    - init-staging
+  only:
+    - main
+
+validate-production:
+  stage: validate
+  script:
+    - cd production
+    - mv /tmp/production-terraform .terraform
+    - mv /tmp/production-terraform.lock.hcl .terraform.lock.hcl
+    - terraform validate
+    - mv .terraform /tmp/production-terraform
+    - mv .terraform.lock.hcl /tmp/production-terraform.lock.hcl
+  dependencies:
+    - init-production
+  only:
+    - main
+
+plan-staging:
+  stage: plan
+  script:
+    - cd staging
+    - mv /tmp/staging-terraform .terraform
+    - mv /tmp/staging-terraform.lock.hcl .terraform.lock.hcl
+    - terraform plan
+    - mv .terraform /tmp/staging-terraform
+    - mv .terraform.lock.hcl /tmp/staging-terraform.lock.hcl
+  dependencies:
+    - validate-staging
+  only:
+    - main
+
+plan-production:
+  stage: plan
+  script:
+    - cd production
+    - mv /tmp/production-terraform .terraform
+    - mv /tmp/production-terraform.lock.hcl .terraform.lock.hcl
+    - terraform plan
+    - mv .terraform /tmp/production-terraform
+    - mv .terraform.lock.hcl /tmp/production-terraform.lock.hcl
+  dependencies:
+    - validate-production
+  only:
+    - main
+
+apply-staging:
+  stage: apply-staging
+  script:
+    - cd staging
+    - mv /tmp/staging-terraform .terraform
+    - mv /tmp/staging-terraform.lock.hcl .terraform.lock.hcl
+    - terraform apply -auto-approve
+    - rm -rf /tmp/staging-terraform
+  dependencies:
+    - plan-staging
+  only:
+    - main
+
+approval:
+  stage: approval
+  script:
+    - echo "Approved to proceed to production deployment"
+  dependencies:
+    - apply-staging  
+  when: manual
+  only:
+    - main
+
+apply-production:
+  stage: apply-production
+  script:
+    - cd production
+    - mv /tmp/production-terraform .terraform
+    - mv /tmp/production-terraform.lock.hcl .terraform.lock.hcl
+    - terraform apply -auto-approve
+    - rm -rf /tmp/production-terraform
+  dependencies:
+    - approval
+  when: manual
+  only:
+    - main
